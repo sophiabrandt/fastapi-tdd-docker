@@ -1,15 +1,40 @@
-version: '2.4'
+version: "2.4"
 
 services:
   web:
     build: ./project
-    command: uvicorn app.main:app --reload --workers 1 --host 0.0.0.0 --port 8000
+    command: "uvicorn app.main:app --reload --workers 1 --host 0.0.0.0 --port 8000"
     ports:
-      - '8002:8000'
+      - "8002:8000"
     volumes:
-      - './project:/usr/src/app:delegated'
+      - "./project:/usr/src/app:delegated"
     environment:
       - USER_ID=1000
       - GROUP_ID=1000
       - ENVIRONMENT=dev
       - TESTING=0
+      - DATABASE_URL=postgres://postgres:postgres@web-db:5432/web_dev
+      - DATABASE_TEST_URL=postgres://postgres:postgres@web-db:5432/web_test
+    depends_on:
+      web-db:
+        condition: service_healthy
+    healthcheck:
+      disable: true
+
+  web-db:
+    build:
+      context: ./project/db
+      dockerfile: Dockerfile
+    expose:
+      - 5432
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    healthcheck:
+      test:
+        - CMD-SHELL
+        - pg_isready -U postgres
+      interval: 10s
+      start_period: 10s
+      timeout: 4s
+      retries: 3

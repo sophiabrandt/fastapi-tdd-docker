@@ -8,6 +8,11 @@ ENV VIRTUAL_ENV=/opt/venv
 RUN python3 -m venv $VIRTUAL_ENV
 ENV PATH="$VIRTUAL_ENV/bin:$PATH"
 
+# install system dependencies
+RUN apt-get update \
+  && apt-get -y install gcc \
+  && apt-get clean
+
 # add and install requirements
 RUN pip install --upgrade pip
 COPY ./requirements.txt .
@@ -30,6 +35,11 @@ RUN groupadd --gid $GROUP_ID user && \
           mkdir -p /usr/src/app && \
           chown -R user:user /usr/src/app
 
+# install system dependencies
+RUN apt-get update \
+  && apt-get -y install netcat-openbsd postgresql \
+  && apt-get clean
+
 # copy from build image
 COPY --chown=user:user --from=build /opt/venv /opt/venv
 
@@ -44,3 +54,6 @@ ENV PYTHONUNBUFFERED 1
 ENV PYTHONDONTWRITEBYTECODE 1
 # Path
 ENV PATH="/opt/venv/bin:$PATH"
+
+# run entrypoint.sh
+ENTRYPOINT ["/usr/src/app/entrypoint.sh"]
