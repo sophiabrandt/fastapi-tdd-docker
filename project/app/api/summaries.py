@@ -1,10 +1,15 @@
 # project/app/api/summaries.py
 
+from typing import List
 
 from fastapi import APIRouter, HTTPException
 
 from app.api import crud
-from app.models.pydantic import SummaryPayloadSchema, SummaryResponseSchema
+from app.models.tortoise import SummarySchema
+from app.models.pydantic import (
+    SummaryPayloadSchema,
+    SummaryResponseSchema,
+)
 
 
 router = APIRouter()
@@ -16,3 +21,8 @@ async def create_summary(payload: SummaryPayloadSchema) -> SummaryResponseSchema
 
     response_object = {"id": summary_id, "url": payload.url}
     return response_object
+
+
+@router.get("/", response_model=List[SummarySchema])
+async def read_all_summaries() -> List[SummarySchema]:
+    return await crud.get_all()
