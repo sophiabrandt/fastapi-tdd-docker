@@ -22,3 +22,8 @@ async def get(id: int) -> Union[dict, None]:
     if summary:
         return summary[0]
     return None
+
+
+async def delete(id: int) -> int:
+    summary = await TextSummary.filter(id=id).first().delete()
+    return summary
