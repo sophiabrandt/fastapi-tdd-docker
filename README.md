@@ -53,7 +53,11 @@ $ docker-compose up -d
 
 ## Tests
 
-coming soon
+```bash
+$ docker-compose exec web python -m pytest
+```
+
+
 
 ## Contributing
 
