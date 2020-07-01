@@ -21,7 +21,7 @@ jobs:
         run: |
           docker pull ${{ env.IMAGE }}-build:$GITHUB_SHA || true
           docker pull ${{ env.IMAGE }}-runtime:$GITHUB_SHA || true
-      - name: Build image
+      - name: Build images
         run: |
           docker build \
             --target build \
@@ -51,11 +51,11 @@ jobs:
         run: echo ${GITHUB_TOKEN} | docker login -u ${GITHUB_ACTOR} --password-stdin docker.pkg.github.com
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      - name: Pull image
+      - name: Pull images
         run: |
           docker pull ${{ env.IMAGE }}-build:$GITHUB_SHA || true
           docker pull ${{ env.IMAGE }}-runtime:$GITHUB_SHA || true
-      - name: Build image
+      - name: Build images
         run: |
           docker build \
             --target build \
@@ -87,3 +87,50 @@ jobs:
         run: docker exec fastapi-tdd python -m black . --check
       - name: isort
         run: docker exec fastapi-tdd /bin/sh -c "python -m isort ./*/*.py --check-only"
+
+  deploy:
+    name: Deploy to Heroku
+    runs-on: ubuntu-latest
+    needs: [build, test]
+    env:
+      HEROKU_APP_NAME: boxing-chesterfield-98766
+      HEROKU_REGISTRY_IMAGE: registry.heroku.com/${HEROKU_APP_NAME}/web
+    steps:
+      - name: Checkout master
+        uses: actions/checkout@v1
+      - name: Log in to GitHub Packages
+        run: echo ${GITHUB_TOKEN} | docker login -u ${GITHUB_ACTOR} --password-stdin docker.pkg.github.com
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Pull images
+        run: |
+          docker pull ${{ env.IMAGE }}-build:$GITHUB_SHA || true
+          docker pull ${{ env.IMAGE }}-runtime:$GITHUB_SHA || true
+      - name: Build images
+        run: |
+          docker build \
+            --target build \
+            --cache-from ${{ env.IMAGE }}-build:$GITHUB_SHA \
+            --tag ${{ env.HEROKU_REGISTRY_IMAGE }}-build:$GITHUB_SHA \
+            --file ./project/Dockerfile.prod \
+            "./project"
+          docker build \
+            --target runtime \
+            --cache-from ${{ env.IMAGE }}-runtime:$GITHUB_SHA \
+            --tag ${{ env.HEROKU_REGISTRY_IMAGE }}-runtime:$GITHUB_SHA \
+            --file ./project/Dockerfile.prod \
+            "./project"
+      - name: Log in to the Heroku Container Registry
+        run: docker login -u _ -p ${HEROKU_AUTH_TOKEN} registry.heroku.com
+        env:
+          HEROKU_AUTH_TOKEN: ${{ secrets.HEROKU_AUTH_TOKEN }}
+      - name: Push to the registry
+        run: docker push ${{ env.HEROKU_REGISTRY_IMAGE }}-runtime:$GITHUB_SHA
+      - name: Set environment variables
+        run: |
+          echo ::set-env name=HEROKU_REGISTRY_IMAGE::${{ env.HEROKU_REGISTRY_IMAGE }}
+          echo ::set-env name=HEROKU_AUTH_TOKEN::${{ secrets.HEROKU_AUTH_TOKEN }}
+      - name: Release
+        run: |
+          chmod +x ./release.sh
+          ./release.sh
