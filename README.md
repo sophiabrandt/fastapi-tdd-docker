@@ -2,7 +2,6 @@
 [![Issues][issues-shield]][issues-url]
 [![workflow status][workflow-shield]][workflow-url]
 
-
 # fastapi-tdd-docker
 
 ## Table of Contents
@@ -45,19 +44,25 @@ $ git clone git@github.com:sophiabrandt/fastapi-tdd-docker.git && cd fastapi-tdd
 $ docker-compose up -d --build
 ```
 
+#### 3. Apply Migrations
+
+```bash
+$ docker-compose exec web python app/db.py
+```
+
 ## Usage
 
 ```bash
 $ docker-compose up -d
 ```
 
+Go to [`http://localhost:8002/docs`](http://localhost:8002/docs).
+
 ## Tests
 
 ```bash
 $ docker-compose exec web python -m pytest
 ```
-
-
 
 ## Contributing
 
@@ -71,7 +76,7 @@ Please see the [original repo](https://github.com/testdrivenio/fastapi-tdd-docke
 
 ## Acknowledgments
 
-* [Michael Herman](https://mherman.org/)
+- [Michael Herman](https://mherman.org/)
 
 [contributors-shield]: https://img.shields.io/github/contributors/sophiabrandt/fastapi-tdd-docker.svg?style=flat-square
 [contributors-url]: https://github.com/sophiabrandt/fastapi-tdd-docker/graphs/contributors
