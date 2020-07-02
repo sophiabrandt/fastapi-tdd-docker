@@ -1,8 +1,8 @@
 # project/tests/test_summaries.py
 
-import pytest
-
 import json
+
+import pytest
 
 
 def test_create_summary(test_app_with_db):
@@ -194,7 +194,7 @@ def test_update_summary_invalid(
 
 def test_update_summary_invalid_url(test_app):
     response = test_app.put(
-        f"/summaries/1/",
+        "/summaries/1/",
         data=json.dumps({"url": "invalid://url", "summary": "updated!"}),
     )
     assert response.status_code == 422
