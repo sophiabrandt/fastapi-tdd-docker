@@ -13,20 +13,6 @@ def test_create_summary(test_app_with_db):
     assert response.json()["url"] == "https://foo.bar"
 
 
-def test_create_summaries_invalid_json(test_app):
-    response = test_app.post("/summaries/", data=json.dumps({}))
-    assert response.status_code == 422
-    assert response.json() == {
-        "detail": [
-            {
-                "loc": ["body", "payload", "url"],
-                "msg": "field required",
-                "type": "value_error.missing",
-            }
-        ]
-    }
-
-
 def test_read_all_summaries(test_app_with_db):
     response = test_app_with_db.post(
         "/summaries/", data=json.dumps({"url": "https://foo.bar"})
@@ -163,3 +149,21 @@ def test_update_summary_invalid_keys(test_app_with_db):
             }
         ]
     }
+
+
+def test_create_summaries_invalid_json(test_app):
+    response = test_app.post("/summaries/", data=json.dumps({}))
+    assert response.status_code == 422
+    assert response.json() == {
+        "detail": [
+            {
+                "loc": ["body", "payload", "url"],
+                "msg": "field required",
+                "type": "value_error.missing",
+            }
+        ]
+    }
+
+    response = test_app.post("/summaries/", data=json.dumps({"url": "invalid://url"}))
+    assert response.status_code == 422
+    assert response.json()["detail"][0]["msg"] == "URL scheme not permitted"
