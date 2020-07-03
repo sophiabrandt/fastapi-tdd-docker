@@ -89,5 +89,5 @@ Please see the [original repo](https://github.com/testdrivenio/fastapi-tdd-docke
 [issues-shield]: https://img.shields.io/github/issues/sophiabrandt/fastapi-tdd-docker.svg?style=flat-square
 [issues-url]: https://github.com/sophiabrandt/fastapi-tdd-docker/issues
 [workflow-shield]: https://github.com/sophiabrandt/fastapi-tdd-docker/workflows/Continuous%20Integration%20and%20Delivery/badge.svg?style=flat-square&branch=master
-[workflow-url]: https://gitlab.com/sophiabrandt/fastapi-tdd-docker/commits/master
+[workflow-url]: https://github.com/sophiabrandt/fastapi-tdd-docker/commits/master
 [tddfastapi]: https://testdriven.io/courses/tdd-fastapi/
