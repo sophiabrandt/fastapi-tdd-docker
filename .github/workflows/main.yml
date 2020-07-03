@@ -19,26 +19,30 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Pull images
         run: |
-          docker pull ${{ env.IMAGE }}-build:$GITHUB_SHA || true
-          docker pull ${{ env.IMAGE }}-runtime:$GITHUB_SHA || true
+          docker pull ${{ env.IMAGE }}-build:latest || true
+          docker pull ${{ env.IMAGE }}-runtime:latest || true
       - name: Build images
         run: |
           docker build \
             --target build \
-            --cache-from ${{ env.IMAGE }}-build:$GITHUB_SHA \
+            --cache-from ${{ env.IMAGE }}-build:latest \
             --tag ${{ env.IMAGE }}-build:$GITHUB_SHA \
+            --tag ${{ env.IMAGE }}-build:latest \
             --file ./project/Dockerfile.prod \
             "./project"
           docker build \
             --target runtime \
-            --cache-from ${{ env.IMAGE }}-runtime:$GITHUB_SHA \
+            --cache-from ${{ env.IMAGE }}-runtime:latest \
             --tag ${{ env.IMAGE }}-runtime:$GITHUB_SHA \
+            --tag ${{ env.IMAGE }}-runtime:latest \
             --file ./project/Dockerfile.prod \
             "./project"
       - name: Push image
         run: |
           docker push ${{ env.IMAGE }}-build:$GITHUB_SHA
+          docker push ${{ env.IMAGE }}-build:latest
           docker push ${{ env.IMAGE }}-runtime:$GITHUB_SHA
+          docker push ${{ env.IMAGE }}-runtime:latest
 
   test:
     name: Test Docker Image
@@ -79,6 +83,8 @@ jobs:
             -e DATABASE_TEST_URL=sqlite://sqlite.db \
             -p 5003:8765 \
             ${{ env.IMAGE }}-runtime:$GITHUB_SHA
+      - name: Install requirements
+        run: docker exec fastapi-tdd pip install black flake8 isort pytest
       - name: Pytest
         run: docker exec fastapi-tdd python -m pytest .
       - name: Flake8
