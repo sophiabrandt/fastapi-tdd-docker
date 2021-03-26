@@ -7,7 +7,7 @@
 aiosqlite==0.16.1
     # via tortoise-orm
 asyncpg==0.22.0
-    # via -r project/requirements.in
+    # via -r requirements.in
 beautifulsoup4==4.9.3
     # via
     #   feedfinder2
@@ -23,7 +23,7 @@ click==7.1.2
 cssselect==1.1.0
     # via newspaper3k
 fastapi==0.63.0
-    # via -r project/requirements.in
+    # via -r requirements.in
 feedfinder2==0.0.4
     # via newspaper3k
 feedparser==6.0.2
@@ -31,7 +31,7 @@ feedparser==6.0.2
 filelock==3.0.12
     # via tldextract
 gunicorn==20.0.4
-    # via -r project/requirements.in
+    # via -r requirements.in
 h11==0.12.0
     # via uvicorn
 idna==2.10
@@ -47,7 +47,7 @@ joblib==1.0.1
 lxml==4.6.2
     # via newspaper3k
 newspaper3k==0.2.8
-    # via -r project/requirements.in
+    # via -r requirements.in
 nltk==3.5
     # via newspaper3k
 pillow==8.1.2
@@ -60,7 +60,7 @@ python-dateutil==2.8.1
     # via newspaper3k
 pytz==2020.5
     # via tortoise-orm
-pyyaml==5.4.1
+pyyaml==5.4
     # via newspaper3k
 regex==2021.3.17
     # via nltk
@@ -68,7 +68,7 @@ requests-file==1.5.1
     # via tldextract
 requests==2.25.1
     # via
-    #   -r project/requirements.in
+    #   -r requirements.in
     #   feedfinder2
     #   newspaper3k
     #   requests-file
@@ -89,7 +89,7 @@ tinysegmenter==0.3
 tldextract==3.1.0
     # via newspaper3k
 tortoise-orm==0.16.21
-    # via -r project/requirements.in
+    # via -r requirements.in
 tqdm==4.59.0
     # via nltk
 typing-extensions==3.7.4.3
@@ -99,7 +99,7 @@ typing-extensions==3.7.4.3
 urllib3==1.26.4
     # via requests
 uvicorn==0.13.4
-    # via -r project/requirements.in
+    # via -r requirements.in
 
 # The following packages are considered to be unsafe in a requirements file:
 # setuptools
