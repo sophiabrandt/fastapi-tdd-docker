@@ -90,7 +90,7 @@ joblib==1.0.1
     # via
     #   -r requirements.txt
     #   nltk
-lxml==4.6.2
+lxml==4.6.3
     # via
     #   -r requirements.txt
     #   newspaper3k
