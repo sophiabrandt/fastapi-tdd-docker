@@ -30,7 +30,7 @@ feedparser==6.0.2
     # via newspaper3k
 filelock==3.0.12
     # via tldextract
-gunicorn==20.0.4
+gunicorn==20.1.0
     # via -r project/requirements.in
 h11==0.12.0
     # via uvicorn
@@ -44,17 +44,17 @@ jieba3k==0.35.1
     # via newspaper3k
 joblib==1.0.1
     # via nltk
-lxml==4.6.2
+lxml==4.6.3
     # via newspaper3k
 newspaper3k==0.2.8
     # via -r project/requirements.in
-nltk==3.5
+nltk==3.6.2
     # via newspaper3k
-pillow==8.1.2
+pillow==8.2.0
     # via newspaper3k
 pydantic==1.8.1
     # via fastapi
-pypika==0.44.1
+pypika-tortoise==0.1.0
     # via tortoise-orm
 python-dateutil==2.8.1
     # via newspaper3k
@@ -62,7 +62,7 @@ pytz==2020.5
     # via tortoise-orm
 pyyaml==5.4.1
     # via newspaper3k
-regex==2021.3.17
+regex==2021.4.4
     # via nltk
 requests-file==1.5.1
     # via tldextract
@@ -88,9 +88,9 @@ tinysegmenter==0.3
     # via newspaper3k
 tldextract==3.1.0
     # via newspaper3k
-tortoise-orm==0.16.21
+tortoise-orm==0.17.2
     # via -r project/requirements.in
-tqdm==4.59.0
+tqdm==4.60.0
     # via nltk
 typing-extensions==3.7.4.3
     # via

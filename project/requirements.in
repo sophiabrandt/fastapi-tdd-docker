@@ -1,7 +1,7 @@
-asyncpg==0.22.0
-fastapi==0.63.0
-gunicorn==20.0.4
-newspaper3k==0.2.8
-requests==2.25.1
-tortoise-orm==0.16.21
-uvicorn==0.13.4
+asyncpg
+fastapi
+gunicorn
+newspaper3k
+requests
+tortoise-orm
+uvicorn
